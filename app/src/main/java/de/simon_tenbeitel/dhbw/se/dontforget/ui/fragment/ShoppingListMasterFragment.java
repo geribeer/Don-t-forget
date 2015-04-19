@@ -11,6 +11,7 @@ import com.parse.ParseQueryAdapter;
 
 import de.simon_tenbeitel.dhbw.se.dontforget.R;
 import de.simon_tenbeitel.dhbw.se.dontforget.objects.ShoppingList;
+import de.simon_tenbeitel.dhbw.se.dontforget.ui.activity.MainActivity;
 import de.simon_tenbeitel.dhbw.se.dontforget.ui.adapter.ShoppingListMasterAdapter;
 
 /**
@@ -43,6 +44,10 @@ public class ShoppingListMasterFragment extends ListFragment {
         mAdaper = new ShoppingListMasterAdapter(getActivity(), mQueryFactory);
         setListAdapter(mAdaper);
         setEmptyText(getString(R.string.noShoppingLists));
+
+        // Attach the floating action button to the ListView, so it can react to scrolling events.
+        // Becomes visible when an attached target is scrolled up and invisible when scrolled down.
+        ((MainActivity) getActivity()).newShoppingListButton.attachToListView(getListView());
     }
 
     @Override

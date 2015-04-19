@@ -1,22 +1,31 @@
 package de.simon_tenbeitel.dhbw.se.dontforget.ui.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.ActionBarActivity;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
+import com.parse.ParseException;
+import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import de.simon_tenbeitel.dhbw.se.dontforget.R;
+import de.simon_tenbeitel.dhbw.se.dontforget.objects.ShoppingList;
 import de.simon_tenbeitel.dhbw.se.dontforget.ui.fragment.ShoppingListMasterFragment;
 
 /**
@@ -26,7 +35,7 @@ public class MainActivity extends ActionBarActivity {
 
     private static final String TAG_SHOPPINGLIST_MASTER_FRAGMENT = "shoppinglist_master";
 
-    @InjectView(R.id.new_shoppingList) FloatingActionButton newShoppingListButton;
+    @InjectView(R.id.new_shoppingList) public FloatingActionButton newShoppingListButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +50,6 @@ public class MainActivity extends ActionBarActivity {
                     .replace(R.id.fragment_shoppinglist_master_container, new ShoppingListMasterFragment(), TAG_SHOPPINGLIST_MASTER_FRAGMENT)
                     .commit();
         }
-
-        // Attach the floating action button to the ListView, so it can react to scrolling events.
-        // Becomes visible when an attached target is scrolled up and invisible when scrolled down.
-        ListFragment shoppingListFragment = (ListFragment) fragmentManager.findFragmentByTag(TAG_SHOPPINGLIST_MASTER_FRAGMENT);
-        ListView shoppingListListView = shoppingListFragment.getListView();
-        newShoppingListButton.attachToListView(shoppingListListView);
     }
 
     @Override
@@ -69,9 +72,59 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void refreshList() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        ListFragment shoppingListFragment = (ListFragment) fragmentManager.findFragmentByTag(TAG_SHOPPINGLIST_MASTER_FRAGMENT);
+        ParseQueryAdapter<ShoppingList> adapter = (ParseQueryAdapter<ShoppingList>) shoppingListFragment.getListAdapter();
+        adapter.loadObjects();
+    }
+
     @OnClick(R.id.new_shoppingList)
     public void newShoppingList() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.createNewShoppingList));
 
+        // Set up the input
+        final EditText input = new EditText(this);
+        // Specify the type of input expected
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton(getString(R.string.save), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ShoppingList shoppingList = new ShoppingList();
+                shoppingList.setUuidString();
+                String title = input.getText().toString();
+                shoppingList.setTitle(title);
+                shoppingList.setItemCount(0);
+
+                shoppingList.pinInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (isFinishing()) {
+                            return;
+                        }
+                        if (e == null) {
+                            MainActivity.this.refreshList();
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    "Error saving: " + e.getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+        });
+        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
 }

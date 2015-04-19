@@ -30,4 +30,11 @@
         <item quantity="other">%d items</item>
     </plurals>
 
+    <!-- NewShoppingList Dialog -->
+    <string name="title">Title</string>
+    <string name="createNewShoppingList">Create new shopping list</string>
+    <string name="editShoppingList">Edit shopping list</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+
 </resources>
