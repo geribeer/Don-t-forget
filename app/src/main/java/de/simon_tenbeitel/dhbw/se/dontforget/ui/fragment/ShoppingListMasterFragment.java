@@ -1,6 +1,7 @@
 package de.simon_tenbeitel.dhbw.se.dontforget.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,13 +21,14 @@ import de.simon_tenbeitel.dhbw.se.dontforget.ui.adapter.ShoppingListMasterAdapte
 public class ShoppingListMasterFragment extends ListFragment {
 
     private ShoppingListMasterAdapter mAdaper;
+    private ParseQueryAdapter.QueryFactory<ShoppingList> mQueryFactory;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Set up the Parse query to use in the adapter
-        ParseQueryAdapter.QueryFactory<ShoppingList> queryFactory = new ParseQueryAdapter.QueryFactory<ShoppingList>() {
+        mQueryFactory = new ParseQueryAdapter.QueryFactory<ShoppingList>() {
             public ParseQuery<ShoppingList> create() {
                 ParseQuery<ShoppingList> query = ShoppingList.getQuery();
                 query.orderByDescending("createdAt");
@@ -34,15 +36,15 @@ public class ShoppingListMasterFragment extends ListFragment {
                 return query;
             }
         };
-
-        mAdaper = new ShoppingListMasterAdapter(getActivity(), queryFactory);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        mAdaper = new ShoppingListMasterAdapter(getActivity(), mQueryFactory);
         setListAdapter(mAdaper);
         setEmptyText(getString(R.string.noShoppingLists));
-        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
