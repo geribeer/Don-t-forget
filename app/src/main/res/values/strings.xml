@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Don\'t forget</string>
+    <string name="app_name" translatable="false">Don\'t forget</string>
 
     <string name="username">Username</string>
     <string name="password">Password</string>
