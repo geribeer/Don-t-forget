@@ -9,6 +9,8 @@ import android.view.MenuItem;
 
 import com.parse.ParseUser;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.simon_tenbeitel.dhbw.se.dontforget.R;
 
 /**
@@ -19,6 +21,8 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ButterKnife.inject(this);
     }
 
     @Override
@@ -39,6 +43,11 @@ public class MainActivity extends ActionBarActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.new_shoppingList)
+    public void newShoppingList() {
+
     }
 
 }
