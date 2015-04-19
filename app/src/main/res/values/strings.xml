@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">Don\'t forget</string>
+
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="confirmPassword">Confirm Password</string>
+    <string name="login">Log In</string>
+    <string name="signUp">Sign Up</string>
+    <string name="incorrectLoginData">Incorrect email or password</string>
+    <string name="usernameTaken">The username is already taken.</string>
+    <string name="passwordNoMatch">The passwords don\' match.</string>
+    <string name="usernameMissing">Your username is missing.</string>
+    <string name="passwordMissing">The password is missing.</string>
+
+    <!-- Page titles -->
+    <string name="loginPageTitle">@string/login</string>
+    <string name="signupPageTitle">@string/signUp</string>
+
+    <!-- Menu items -->
+    <string name="action_logout">Logout</string>
+
+    <!-- Error messages -->
+    <string name="unknownError">An unknown error occurred, please try again.</string>
+    <string name="networkError">Network error occurred. Check your connection.</string>
+
 </resources>
