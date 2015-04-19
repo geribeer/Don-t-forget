@@ -3,9 +3,7 @@ package de.simon_tenbeitel.dhbw.se.dontforget.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.parse.ParseQuery;
@@ -31,7 +29,7 @@ public class ShoppingListMasterFragment extends ListFragment {
         mQueryFactory = new ParseQueryAdapter.QueryFactory<ShoppingList>() {
             public ParseQuery<ShoppingList> create() {
                 ParseQuery<ShoppingList> query = ShoppingList.getQuery();
-                query.orderByDescending("createdAt");
+                query.orderByDescending("updatedAt");
                 query.fromLocalDatastore();
                 return query;
             }
