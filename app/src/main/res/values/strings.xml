@@ -23,4 +23,11 @@
     <string name="unknownError">An unknown error occurred, please try again.</string>
     <string name="networkError">Network error occurred. Check your connection.</string>
 
+    <!-- ShoppingList Master -->
+    <string name="noShoppingLists">There are no shopping lists</string>
+    <plurals name="numberOfShoppingListItems">
+        <item quantity="one">%d item</item>
+        <item quantity="other">%d items</item>
+    </plurals>
+
 </resources>
