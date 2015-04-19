@@ -2,6 +2,7 @@ package de.simon_tenbeitel.dhbw.se.dontforget.objects;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 /**
  * Created by Simon on 19.04.2015.
@@ -35,6 +36,10 @@ public class ShoppingListItem extends ParseObject {
 
     public void setDone(boolean done) {
         put(DONE, done);
+    }
+
+    public static ParseQuery<ShoppingListItem> getQuery() {
+        return ParseQuery.getQuery(ShoppingListItem.class);
     }
 
 }
