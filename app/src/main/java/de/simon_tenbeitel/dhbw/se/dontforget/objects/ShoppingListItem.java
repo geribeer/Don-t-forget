@@ -9,16 +9,16 @@ import com.parse.ParseQuery;
 @ParseClassName("ShoppingListItem")
 public class ShoppingListItem extends MyParseObject {
 
-    private static final String KEY_LIST_ID = "list";
+    private static final String KEY_LIST = "list";
     private static final String KEY_TITLE = "title";
     private static final String KEY_DONE = "done";
 
-    public String getListId() {
-        return getString(KEY_LIST_ID);
+    public ShoppingList getList() {
+        return (ShoppingList) get(KEY_LIST);
     }
 
-    public void setListId(String listId) {
-        put(KEY_LIST_ID, listId);
+    public void setList(ShoppingList list) {
+        put(KEY_LIST, list);
     }
 
     public String getTitle() {
