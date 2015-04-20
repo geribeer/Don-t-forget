@@ -35,7 +35,8 @@ public class ShoppingListMasterAdapter extends ParseQueryAdapter<ShoppingList> {
         }
 
         holder.title.setText(shoppingList.getTitle());
-        holder.itemCount.setText(getContext().getResources().getQuantityString(R.plurals.numberOfShoppingListItems, shoppingList.getItemCount()));
+        int itemCount = shoppingList.getItemCount();
+        holder.itemCount.setText(getContext().getResources().getQuantityString(R.plurals.numberOfShoppingListItems, itemCount, itemCount));
 
         return view;
     }
