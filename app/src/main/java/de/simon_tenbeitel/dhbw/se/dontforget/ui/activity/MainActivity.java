@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,15 +17,22 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
+import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import de.simon_tenbeitel.dhbw.se.dontforget.R;
+import de.simon_tenbeitel.dhbw.se.dontforget.network.DontforgetParseFunctions;
+import de.simon_tenbeitel.dhbw.se.dontforget.objects.MyParseObject;
 import de.simon_tenbeitel.dhbw.se.dontforget.objects.ShoppingList;
 import de.simon_tenbeitel.dhbw.se.dontforget.ui.fragment.ShoppingListMasterFragment;
 
@@ -53,6 +61,13 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        loadShoppingListsFromParse();
+        DontforgetParseFunctions.syncToParse();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
@@ -72,7 +87,7 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void refreshList() {
+    public void refreshList() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         ListFragment shoppingListFragment = (ListFragment) fragmentManager.findFragmentByTag(TAG_SHOPPINGLIST_MASTER_FRAGMENT);
         ParseQueryAdapter<ShoppingList> adapter = (ParseQueryAdapter<ShoppingList>) shoppingListFragment.getListAdapter();
@@ -99,6 +114,8 @@ public class MainActivity extends ActionBarActivity {
                 String title = input.getText().toString();
                 shoppingList.setTitle(title);
                 shoppingList.setItemCount(0);
+                shoppingList.setDraft(true);
+                shoppingList.setAuthor(ParseUser.getCurrentUser());
 
                 shoppingList.pinInBackground(new SaveCallback() {
                     @Override
@@ -108,6 +125,7 @@ public class MainActivity extends ActionBarActivity {
                         }
                         if (e == null) {
                             MainActivity.this.refreshList();
+                            DontforgetParseFunctions.syncToParse();
                         } else {
                             Toast.makeText(getApplicationContext(),
                                     "Error saving: " + e.getMessage(),
@@ -125,6 +143,35 @@ public class MainActivity extends ActionBarActivity {
         });
 
         builder.show();
+    }
+
+    private void loadShoppingListsFromParse() {
+        ParseQuery<ShoppingList> query = ShoppingList.getQuery();
+        query.whereEqualTo(MyParseObject.KEY_AUTHOR, ParseUser.getCurrentUser());
+        query.findInBackground(new FindCallback<ShoppingList>() {
+            public void done(List<ShoppingList> shoppingLists, ParseException e) {
+                if (e == null) {
+                    Log.d("Load shopping lists", shoppingLists.size() + " elements fetched");
+                    ParseObject.pinAllInBackground((List<ShoppingList>) shoppingLists,
+                            new SaveCallback() {
+                                public void done(ParseException e) {
+                                    if (e == null) {
+                                        if (!isFinishing()) {
+                                            MainActivity.this.refreshList();
+                                        }
+                                    } else {
+                                        Log.i("DontforgetParse",
+                                                "Error pinning shopping lists: " + e.getMessage());
+                                    }
+                                }
+                            });
+                } else {
+                    Log.i("MainActivity",
+                            "loadFromParse: Error finding pinned todos: "
+                                    + e.getMessage());
+                }
+            }
+        });
     }
 
 }
