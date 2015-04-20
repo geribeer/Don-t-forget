@@ -1,22 +1,17 @@
 package de.simon_tenbeitel.dhbw.se.dontforget.objects;
 
 import com.parse.ParseClassName;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
-
-import java.util.UUID;
 
 /**
  * Created by Simon on 19.04.2015.
  */
 @ParseClassName("ShoppingListItem")
-public class ShoppingListItem extends ParseObject {
+public class ShoppingListItem extends MyParseObject {
 
     private static final String KEY_LIST_ID = "list";
     private static final String KEY_TITLE = "title";
     private static final String KEY_DONE = "done";
-    private static final String KEY_DRAFT = "draft";
-    private static final String KEY_UUID = "uuid";
 
     public String getListId() {
         return getString(KEY_LIST_ID);
@@ -40,23 +35,6 @@ public class ShoppingListItem extends ParseObject {
 
     public void setDone(boolean done) {
         put(KEY_DONE, done);
-    }
-
-    public boolean isDraft() {
-        return getBoolean(KEY_DRAFT);
-    }
-
-    public void setDraft(boolean isDraft) {
-        put(KEY_DRAFT, isDraft);
-    }
-
-    public void setUuidString() {
-        UUID uuid = UUID.randomUUID();
-        put(KEY_UUID, uuid.toString());
-    }
-
-    public String getUuidString() {
-        return getString(KEY_UUID);
     }
 
     public static ParseQuery<ShoppingListItem> getQuery() {
