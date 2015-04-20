@@ -15,6 +15,7 @@ public class ShoppingListItem extends ParseObject {
     private static final String KEY_LIST_ID = "list";
     private static final String KEY_TITLE = "title";
     private static final String KEY_DONE = "done";
+    private static final String KEY_DRAFT = "draft";
     private static final String KEY_UUID = "uuid";
 
     public String getListId() {
@@ -39,6 +40,14 @@ public class ShoppingListItem extends ParseObject {
 
     public void setDone(boolean done) {
         put(KEY_DONE, done);
+    }
+
+    public boolean isDraft() {
+        return getBoolean(KEY_DRAFT);
+    }
+
+    public void setDraft(boolean isDraft) {
+        put(KEY_DRAFT, isDraft);
     }
 
     public void setUuidString() {

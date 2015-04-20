@@ -12,9 +12,10 @@ import java.util.UUID;
 @ParseClassName("ShoppingList")
 public class ShoppingList extends ParseObject {
 
-    private static final String KEY_TITLE = "title";
-    private static final String KEY_COUNT = "count";
-    private static final String KEY_UUID = "uuid";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_COUNT = "count";
+    public static final String KEY_DRAFT = "draft";
+    public static final String KEY_UUID = "uuid";
 
     public String getTitle() {
         return getString(KEY_TITLE);
@@ -30,6 +31,14 @@ public class ShoppingList extends ParseObject {
 
     public void setItemCount(int itemCount) {
         put(KEY_COUNT, itemCount);
+    }
+
+    public boolean isDraft() {
+        return getBoolean(KEY_DRAFT);
+    }
+
+    public void setDraft(boolean isDraft) {
+        put(KEY_DRAFT, isDraft);
     }
 
     public void setUuidString() {
