@@ -9,9 +9,9 @@ import com.parse.ParseQuery;
 @ParseClassName("ShoppingListItem")
 public class ShoppingListItem extends MyParseObject {
 
-    private static final String KEY_LIST = "list";
-    private static final String KEY_TITLE = "title";
-    private static final String KEY_DONE = "done";
+    public static final String KEY_LIST = "list";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_DONE = "done";
 
     public ShoppingList getShoppingList() {
         return (ShoppingList) get(KEY_LIST);

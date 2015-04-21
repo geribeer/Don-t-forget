@@ -12,7 +12,7 @@ public class MyParseObject extends ParseObject {
 
     public static final String KEY_DRAFT = "draft";
     public static final String KEY_AUTHOR = "author";
-    private static final String KEY_UUID = "uuid";
+    public static final String KEY_UUID = "uuid";
 
     public ParseUser getAuthor() {
         return getParseUser(KEY_AUTHOR);
