@@ -5,9 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.parse.ParseQuery;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import de.simon_tenbeitel.dhbw.se.dontforget.R;
 import de.simon_tenbeitel.dhbw.se.dontforget.objects.ShoppingListItem;
 
 /**
@@ -29,11 +33,11 @@ public class DetailAdapter extends ParseQueryRecyclerViewAdapter {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         switch (viewType) {
             case ViewTypes.ITEM:
-
-                return null;
+                View itemView = inflater.inflate(R.layout.row_detail, parent, false);
+                return new ItemViewHolder(itemView);
             case ViewTypes.ADD_ITEM:
-
-                return null;
+                View addItemView = inflater.inflate(R.layout.row_detail_add_button, parent, false);
+                return new AddItemViewHolder(addItemView);
             default:
                 throw new RuntimeException("Error while creating RecyclerView.ViewHolder for DetailAdapter: viewType " + viewType + " not found");
         }
@@ -57,13 +61,19 @@ public class DetailAdapter extends ParseQueryRecyclerViewAdapter {
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
         public ItemViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.inject(this, itemView);
         }
     }
 
     public static class AddItemViewHolder extends RecyclerView.ViewHolder {
+
+        @InjectView(R.id.add_item) Button addItem;
+
         public AddItemViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.inject(this, itemView);
         }
+
     }
 
 }
