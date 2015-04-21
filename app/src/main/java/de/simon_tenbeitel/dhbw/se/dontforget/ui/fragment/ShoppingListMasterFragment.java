@@ -1,16 +1,20 @@
 package de.simon_tenbeitel.dhbw.se.dontforget.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
 
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
 import de.simon_tenbeitel.dhbw.se.dontforget.R;
 import de.simon_tenbeitel.dhbw.se.dontforget.objects.ShoppingList;
+import de.simon_tenbeitel.dhbw.se.dontforget.objects.ShoppingListItem;
+import de.simon_tenbeitel.dhbw.se.dontforget.ui.activity.DetailActivity;
 import de.simon_tenbeitel.dhbw.se.dontforget.ui.activity.MainActivity;
 import de.simon_tenbeitel.dhbw.se.dontforget.ui.adapter.ShoppingListMasterAdapter;
 
@@ -52,6 +56,12 @@ public class ShoppingListMasterFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
+        ShoppingList shoppingList = mAdaper.getItem(position);
+        String objectID = shoppingList.getObjectId();
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.putExtra(ShoppingList.KEY_TITLE, shoppingList.getTitle());
+        intent.putExtra(ShoppingListItem.KEY_LIST, objectID);
+        startActivity(intent);
     }
+
 }
