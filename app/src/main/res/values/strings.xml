@@ -37,4 +37,7 @@
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
 
+    <!-- ShoppingList Detail -->
+    <string name="addItem">Add Item</string>
+
 </resources>
