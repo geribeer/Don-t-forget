@@ -2,7 +2,6 @@ package de.simon_tenbeitel.dhbw.se.dontforget.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
@@ -20,8 +19,8 @@ public class DetailActivity extends ActionBarActivity {
     private static final String TAG_DETAIL_FRAGMENT = "detail_fragment";
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
         Intent startingIntent = getIntent();
@@ -39,7 +38,7 @@ public class DetailActivity extends ActionBarActivity {
             detailFragment.setArguments(args);
 
             fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_shoppinglist_master_container, detailFragment, TAG_DETAIL_FRAGMENT)
+                    .replace(R.id.container, detailFragment, TAG_DETAIL_FRAGMENT)
                     .commit();
         }
     }
