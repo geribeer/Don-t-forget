@@ -22,6 +22,7 @@
     <!-- Error messages -->
     <string name="unknownError">An unknown error occurred, please try again.</string>
     <string name="networkError">Network error occurred. Check your connection.</string>
+    <string name="saveItemError">An error occurred while saving item.</string>
 
     <!-- ShoppingList Master -->
     <string name="noShoppingLists">There are no shopping lists</string>
@@ -39,5 +40,6 @@
 
     <!-- ShoppingList Detail -->
     <string name="addItem">Add Item</string>
+    <string name="newItem">New Item</string>
 
 </resources>

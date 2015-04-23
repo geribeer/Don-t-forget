@@ -14,6 +14,7 @@ import com.parse.ParseQuery;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.simon_tenbeitel.dhbw.se.dontforget.R;
+import de.simon_tenbeitel.dhbw.se.dontforget.objects.ShoppingList;
 import de.simon_tenbeitel.dhbw.se.dontforget.objects.ShoppingListItem;
 import de.simon_tenbeitel.dhbw.se.dontforget.ui.adapter.DetailAdapter;
 import de.simon_tenbeitel.dhbw.se.dontforget.ui.adapter.ParseQueryRecyclerViewAdapter;
@@ -32,7 +33,9 @@ public class DetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mQuery = ShoppingListItem.getQuery();
-        mQuery.whereEqualTo(ShoppingListItem.KEY_LIST, getArguments().getString(ShoppingListItem.KEY_LIST));
+        mQuery.fromLocalDatastore();
+        ShoppingList listWithoutData = ShoppingList.createWithoutData(ShoppingList.class, getArguments().getString(ShoppingListItem.KEY_LIST));
+        mQuery.whereEqualTo(ShoppingListItem.KEY_LIST, listWithoutData);
     }
 
     @Override
@@ -48,8 +51,8 @@ public class DetailFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mAdapter = new DetailAdapter(getActivity(), mQuery);
+        mAdapter = new DetailAdapter(getActivity(), mQuery, getArguments().getString(ShoppingListItem.KEY_LIST));
         mRecyclerView.setAdapter(mAdapter);
     }
-    
+
 }
