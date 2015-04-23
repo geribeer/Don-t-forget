@@ -167,7 +167,7 @@ public class MainActivity extends ActionBarActivity {
                             });
                 } else {
                     Log.i("MainActivity",
-                            "loadFromParse: Error finding pinned todos: "
+                            "loadFromParse: Error finding pinned shopping lists: "
                                     + e.getMessage());
                 }
             }

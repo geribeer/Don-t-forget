@@ -55,4 +55,8 @@ public class DetailFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
     }
 
+    public DetailAdapter getAdapter() {
+        return (DetailAdapter) mAdapter;
+    }
+
 }

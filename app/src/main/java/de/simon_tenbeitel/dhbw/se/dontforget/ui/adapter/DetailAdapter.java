@@ -63,7 +63,8 @@ public class DetailAdapter extends ParseQueryRecyclerViewAdapter {
         switch (getItemViewType(position)) {
             case ViewTypes.ITEM:
                 ShoppingListItem item = mItems.get(position);
-                ((ItemViewHolder) viewHolder).title.setText(item.getTitle());
+                String title = item.getTitle();
+                ((ItemViewHolder) viewHolder).title.setText(title);
                 break;
             case ViewTypes.ADD_ITEM:
                 ((AddItemViewHolder) viewHolder).addItem.setOnClickListener(new View.OnClickListener() {
