@@ -36,6 +36,7 @@ public class DetailFragment extends Fragment {
         mQuery.fromLocalDatastore();
         ShoppingList listWithoutData = ShoppingList.createWithoutData(ShoppingList.class, getArguments().getString(ShoppingListItem.KEY_LIST));
         mQuery.whereEqualTo(ShoppingListItem.KEY_LIST, listWithoutData);
+        mQuery.orderByAscending("updatedAt");
     }
 
     @Override
