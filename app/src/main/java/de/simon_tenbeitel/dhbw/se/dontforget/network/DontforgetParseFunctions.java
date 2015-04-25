@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.List;
@@ -31,6 +32,12 @@ public class DontforgetParseFunctions {
             public void done(List<ShoppingList> shoppingLists, ParseException e) {
                 if (e == null) {
                     Log.d("SyncShoppingLists", shoppingLists.size() + " elements to sync");
+                    try {
+                        ParseObject.unpinAll();
+                    } catch (ParseException e1) {
+                        e1.printStackTrace();
+                        return;
+                    }
                     for (final ShoppingList shoppingList : shoppingLists) {
                         // Set is draft flag to false before
                         // syncing to Parse
