@@ -23,12 +23,6 @@ public class DontforgetApplication extends Application {
         sContext = getApplicationContext();
 
         // Configure Parse
-        Parse.enableLocalDatastore(this);
-        ParseObject.registerSubclass(ShoppingList.class);
-        ParseObject.registerSubclass(ShoppingListItem.class);
-        Parse.initialize(this, "c4Y0QwdstAcsrw8Ck4W2DUSwR0xh2sF7VXrb22kN", "DgDUeI0UL1gVfSgKGtn7KkBbMdAqE4tqrZaETh0o");
-        ParseACL defaultACL = new ParseACL();
-        ParseACL.setDefaultACL(defaultACL, true);
     }
 
     public static Context getContext(){
