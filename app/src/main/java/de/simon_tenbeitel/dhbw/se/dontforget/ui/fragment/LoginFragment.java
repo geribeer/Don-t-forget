@@ -49,17 +49,7 @@ public class LoginFragment extends Fragment {
             return;
         }
 
-        ParseUser.logInInBackground(username, password, new LogInCallback() {
-            public void done(ParseUser user, ParseException e) {
-                if (user != null) {
-                    // Hooray! The user is logged in.
-                    goToMainActivity();
-                } else {
-                    // Log In failed. Look at the ParseException to see what happened.
-                    showLoginError(e);
-                }
-            }
-        });
+        //todo implement login
     }
 
     private void goToMainActivity() {
