@@ -31,7 +31,7 @@ public class ShoppingListMasterFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         //todo Set up the Parse query to use in the adapter
-        
+
     }
 
     @Override

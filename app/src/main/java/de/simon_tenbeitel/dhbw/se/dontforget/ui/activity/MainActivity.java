@@ -109,30 +109,8 @@ public class MainActivity extends ActionBarActivity {
         builder.setPositiveButton(getString(R.string.save), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                ShoppingList shoppingList = new ShoppingList();
-                shoppingList.setUuidString();
-                String title = input.getText().toString();
-                shoppingList.setTitle(title);
-                shoppingList.setItemCount(0);
-                shoppingList.setDraft(true);
-                shoppingList.setAuthor(ParseUser.getCurrentUser());
-
-                shoppingList.pinInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (isFinishing()) {
-                            return;
-                        }
-                        if (e == null) {
-                            MainActivity.this.refreshList();
-                            DontforgetParseFunctions.syncToParse();
-                        } else {
-                            Toast.makeText(getApplicationContext(),
-                                    "Error saving: " + e.getMessage(),
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
+                //todo create new shopping list
+                
             }
         });
         builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
