@@ -110,7 +110,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //todo create new shopping list
-                
+
             }
         });
         builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -124,32 +124,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void loadShoppingListsFromParse() {
-        ParseQuery<ShoppingList> query = ShoppingList.getQuery();
-        query.whereEqualTo(MyParseObject.KEY_AUTHOR, ParseUser.getCurrentUser());
-        query.findInBackground(new FindCallback<ShoppingList>() {
-            public void done(List<ShoppingList> shoppingLists, ParseException e) {
-                if (e == null) {
-                    Log.d("Load shopping lists", shoppingLists.size() + " elements fetched");
-                    ParseObject.pinAllInBackground((List<ShoppingList>) shoppingLists,
-                            new SaveCallback() {
-                                public void done(ParseException e) {
-                                    if (e == null) {
-                                        if (!isFinishing()) {
-                                            MainActivity.this.refreshList();
-                                        }
-                                    } else {
-                                        Log.i("DontforgetParse",
-                                                "Error pinning shopping lists: " + e.getMessage());
-                                    }
-                                }
-                            });
-                } else {
-                    Log.i("MainActivity",
-                            "loadFromParse: Error finding pinned shopping lists: "
-                                    + e.getMessage());
-                }
-            }
-        });
+        //todo load lists from backend
     }
 
 }
