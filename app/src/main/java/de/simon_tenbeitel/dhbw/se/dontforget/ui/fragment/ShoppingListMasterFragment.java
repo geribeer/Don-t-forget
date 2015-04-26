@@ -30,15 +30,8 @@ public class ShoppingListMasterFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Set up the Parse query to use in the adapter
-        mQueryFactory = new ParseQueryAdapter.QueryFactory<ShoppingList>() {
-            public ParseQuery<ShoppingList> create() {
-                ParseQuery<ShoppingList> query = ShoppingList.getQuery();
-                query.orderByDescending("updatedAt");
-                query.fromLocalDatastore();
-                return query;
-            }
-        };
+        //todo Set up the Parse query to use in the adapter
+        
     }
 
     @Override
