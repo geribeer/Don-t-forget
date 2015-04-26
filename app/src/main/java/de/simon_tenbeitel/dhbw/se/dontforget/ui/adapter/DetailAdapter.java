@@ -2,6 +2,7 @@ package de.simon_tenbeitel.dhbw.se.dontforget.ui.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Paint;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +27,7 @@ import de.simon_tenbeitel.dhbw.se.dontforget.R;
 import de.simon_tenbeitel.dhbw.se.dontforget.network.DontforgetParseFunctions;
 import de.simon_tenbeitel.dhbw.se.dontforget.objects.ShoppingList;
 import de.simon_tenbeitel.dhbw.se.dontforget.objects.ShoppingListItem;
+import de.simon_tenbeitel.dhbw.se.dontforget.ui.activity.DetailActivity;
 
 /**
  * Created by Simon on 20.04.2015.
@@ -59,12 +62,11 @@ public class DetailAdapter extends ParseQueryRecyclerViewAdapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, int position) {
         switch (getItemViewType(position)) {
             case ViewTypes.ITEM:
-                ShoppingListItem item = mItems.get(position);
-                String title = item.getTitle();
-                ((ItemViewHolder) viewHolder).title.setText(title);
+                final ShoppingListItem item = mItems.get(position);
+                bindItemViewHolder(item, viewHolder);
                 break;
             case ViewTypes.ADD_ITEM:
                 ((AddItemViewHolder) viewHolder).addItem.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +103,34 @@ public class DetailAdapter extends ParseQueryRecyclerViewAdapter {
         }
     }
 
+    private void bindItemViewHolder(final ShoppingListItem item, final RecyclerView.ViewHolder viewHolder) {
+        final String title = item.getTitle();
+        final TextView titleTextview = ((ItemViewHolder) viewHolder).title;
+        titleTextview.setText(title);
+        final CheckBox checkBox = ((ItemViewHolder) viewHolder).checkBox;
+        if (item.isDone()) {
+            titleTextview.setPaintFlags(titleTextview.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            checkBox.setChecked(true);
+        }
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                item.setDone(isChecked);
+                try {
+                    item.pin();
+                    item.saveEventually();
+                    if (isChecked) {
+                        titleTextview.setPaintFlags(titleTextview.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    } else {
+                        titleTextview.setPaintFlags(titleTextview.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     @Override
     public int getItemViewType(int position) {
         return mItems != null && position < mItems.size() ? ViewTypes.ITEM : ViewTypes.ADD_ITEM;
@@ -128,8 +158,9 @@ public class DetailAdapter extends ParseQueryRecyclerViewAdapter {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    loadObjectsInBackground();
                     DontforgetParseFunctions.syncToParse();
+                    ((DetailActivity) mContext).loadItemsFromParse();
+                    loadObjectsInBackground();
                 } else {
                     Toast.makeText(mContext, R.string.saveItemError, Toast.LENGTH_LONG).show();
                 }

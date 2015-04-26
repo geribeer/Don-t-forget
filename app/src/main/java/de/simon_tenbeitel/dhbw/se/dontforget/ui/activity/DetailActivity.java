@@ -56,13 +56,13 @@ public class DetailActivity extends ActionBarActivity {
         }
     }
 
-    private void refreshList() {
+    public void refreshList() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         DetailFragment fragment = (DetailFragment) fragmentManager.findFragmentByTag(TAG_DETAIL_FRAGMENT);
         fragment.getAdapter().loadObjectsInBackground();
     }
 
-    private void loadItemsFromParse() {
+    public void loadItemsFromParse() {
         ParseQuery<ShoppingListItem> query = ShoppingListItem.getQuery();
         query.whereEqualTo(MyParseObject.KEY_AUTHOR, ParseUser.getCurrentUser());
         query.findInBackground(new FindCallback<ShoppingListItem>() {

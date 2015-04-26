@@ -47,8 +47,8 @@ public abstract class ParseQueryRecyclerViewAdapter extends RecyclerView.Adapter
             @Override
             public void done(List<ShoppingListItem> shoppingListItems, ParseException e) {
                 if (e == null) {
-                    ParseQueryRecyclerViewAdapter.this.mItems = shoppingListItems;
-                    ParseQueryRecyclerViewAdapter.this.notifyDataSetChanged();
+                    mItems = shoppingListItems;
+                    notifyDataSetChanged();
                 } else {
                     Log.e("ParseQueryRecycAdapter", "Error while querying in background: " + e.getMessage());
                 }
